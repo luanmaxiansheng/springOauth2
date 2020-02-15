@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.UserXMapper">
+    <resultMap id="user" type="com.example.demo.domain.UserX">
+        <id property="name" column="username"/>
+        <result property="secret" column="secret"/>
+        <result property="authority" column="authority"/>
+    </resultMap>
+
+    <select id="selectByUser" parameterType="java.lang.String" resultMap="user">
+        SELECT username, secret, authority from SecurityOauth2.user;
+    </select>
+</mapper>

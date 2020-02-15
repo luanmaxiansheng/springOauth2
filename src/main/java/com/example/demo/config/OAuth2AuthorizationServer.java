@@ -12,15 +12,20 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 
+import javax.sql.DataSource;
+
 @Configuration
 @EnableAuthorizationServer
 public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdapter {
 
-    @Autowired
-    private ClientDetailsService clientDetailService;
+//    @Autowired
+//    private ClientDetailsService clientDetailService;
 
     @Autowired
     private CustomerUser customerUser;
+
+    @Autowired
+    private DataSource dataSource;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -30,7 +35,8 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
 //                .redirectUris("http://www.baidu.com").authorities("ROLE_USER")
 //                .authorizedGrantTypes("authorization_code","refresh_token")
 //                .scopes("all");
-        clients.withClientDetails(clientDetailService);
+//        clients.withClientDetails(clientDetailService);
+        clients.jdbc(dataSource).passwordEncoder(new BCryptPasswordEncoder());
     }
 
     @Override
