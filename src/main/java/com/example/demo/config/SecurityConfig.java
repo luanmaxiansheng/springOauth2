@@ -14,11 +14,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(customerUser).passwordEncoder(passwordEncoder());
     }
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private CustomerUser customerUser;
 
     public static void main(String[] args) {
         System.out.println(new BCryptPasswordEncoder().encode("1"));

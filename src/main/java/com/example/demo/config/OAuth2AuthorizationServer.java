@@ -10,28 +10,33 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
 
 @Configuration
 @EnableAuthorizationServer
 public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private ClientDetailsService clientDetailService;
+
+    @Autowired
+    private CustomerUser customerUser;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory()
-                .withClient("xiong")
-                .secret("$2a$10$2da4L5Gt7dsJXzWwxlggUO6VPnLYVXBl6qITwTdjLmSoaQo5aeEYW")
-                .redirectUris("http://www.baidu.com").authorities("ROLE_USER")
-                .authorizedGrantTypes("authorization_code","refresh_token")
-                .scopes("all");
+//        clients.inMemory()
+//                .withClient("xiong")
+//                .secret("$2a$10$2da4L5Gt7dsJXzWwxlggUO6VPnLYVXBl6qITwTdjLmSoaQo5aeEYW")
+//                .redirectUris("http://www.baidu.com").authorities("ROLE_USER")
+//                .authorizedGrantTypes("authorization_code","refresh_token")
+//                .scopes("all");
+        clients.withClientDetails(clientDetailService);
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
-        endpoints.userDetailsService(userDetailsService);
+        endpoints.userDetailsService(customerUser);
     }
 
     @Override
